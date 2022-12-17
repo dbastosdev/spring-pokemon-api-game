@@ -24,14 +24,17 @@ public class PokemonService {
     private PokemonRepository pokemonRepository;
 
     @Transactional
-    public List<PokemonDTOInAList> findAll() throws JsonProcessingException {
+    public List<PokemonDTOInAList> findAll(Long offset) throws JsonProcessingException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        String baseUrl = "https://pokeapi.co/api/v2/pokemon/";
+        String baseUrl = "https://pokeapi.co/api/v2/pokemon/?offset=";
+        String completURL = baseUrl + offset + "&limit=20";
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(completURL, HttpMethod.GET, httpEntity, String.class);
+
+        System.out.println(completURL);
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());

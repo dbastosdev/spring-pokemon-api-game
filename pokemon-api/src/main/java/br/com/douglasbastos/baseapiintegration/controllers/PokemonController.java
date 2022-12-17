@@ -19,9 +19,9 @@ public class PokemonController {
     @Autowired
     private PokemonService pokemonService;
 
-    @GetMapping
-    public ResponseEntity<List<PokemonDTOInAList>> findAll() throws JsonProcessingException {
-        List<PokemonDTOInAList> list = pokemonService.findAll();
+    @GetMapping(value = "/{offset}")
+    public ResponseEntity<List<PokemonDTOInAList>> findAll(@PathVariable Long offset) throws JsonProcessingException {
+        List<PokemonDTOInAList> list = pokemonService.findAll(offset);
         return ResponseEntity.ok().body(list);
     }
 
