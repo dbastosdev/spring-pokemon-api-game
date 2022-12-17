@@ -1,6 +1,7 @@
 package br.com.douglasbastos.baseapiintegration.services;
 
 import br.com.douglasbastos.baseapiintegration.DTO.PokemonDTO;
+import br.com.douglasbastos.baseapiintegration.DTO.PokemonDTOInAList;
 import br.com.douglasbastos.baseapiintegration.domain.Pokemon;
 import br.com.douglasbastos.baseapiintegration.repositories.PokemonRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class PokemonService {
@@ -21,6 +24,37 @@ public class PokemonService {
     private PokemonRepository pokemonRepository;
 
     @Transactional
+    public List<PokemonDTOInAList> findAll() throws JsonProcessingException {
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        String baseUrl = "https://pokeapi.co/api/v2/pokemon/";
+        HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, httpEntity, String.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.getBody());
+
+        List<JsonNode> names = root.findValue("results").findValues("name");
+
+        List<PokemonDTOInAList> listOfPokemons = new ArrayList<>();
+
+        for(JsonNode n : names){
+            PokemonDTO pokemonDTO = new PokemonDTO();
+            pokemonDTO.setName(n.asText());
+            pokemonDTO = search(pokemonDTO);
+
+            PokemonDTOInAList pokemonDTOInAList = new PokemonDTOInAList(pokemonDTO);
+
+            listOfPokemons.add(pokemonDTOInAList);
+        }
+
+        return listOfPokemons;
+    }
+
+
+        @Transactional
     public PokemonDTO search(PokemonDTO pokemonDTO) throws JsonProcessingException {
 
         if(pokemonRepository.existsByPokedexId(pokemonDTO.getPokedexId())){
