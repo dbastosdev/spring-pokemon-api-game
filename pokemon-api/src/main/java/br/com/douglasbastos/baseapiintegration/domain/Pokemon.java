@@ -1,6 +1,7 @@
 package br.com.douglasbastos.baseapiintegration.domain;
 
 
+import br.com.douglasbastos.baseapiintegration.DTO.PokemonDTO;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -38,6 +39,19 @@ public class Pokemon {
         this.specialDefense = specialDefense;
         this.speed = speed;
         this.type = type;
+    }
+
+    public Pokemon(PokemonDTO pokemonDTO){
+        this.name = pokemonDTO.getName();
+        this.pokedexId = pokemonDTO.getPokedexId();
+        this.img = pokemonDTO.getImg();
+        this.hp = pokemonDTO.getHp();
+        this.attack = pokemonDTO.getAttack();
+        this.defense = pokemonDTO.getDefense();
+        this.specialAttack = pokemonDTO.getSpecialAttack();
+        this.specialDefense = pokemonDTO.getSpecialDefense();
+        this.speed = pokemonDTO.getSpeed();
+        this.type = pokemonDTO.getType();
     }
 
     public Long getId() {

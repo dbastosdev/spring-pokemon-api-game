@@ -1,6 +1,8 @@
 package br.com.douglasbastos.baseapiintegration.controllers;
 
 import br.com.douglasbastos.baseapiintegration.DTO.PokemonDTO;
+import br.com.douglasbastos.baseapiintegration.DTO.PokemonMasterDTO;
+import br.com.douglasbastos.baseapiintegration.services.PokemonMasterService;
 import br.com.douglasbastos.baseapiintegration.services.PokemonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/pokemon")
-public class PokemonController {
+@RequestMapping(value = "/pokemon-master")
+public class PokemonMasterController {
 
     @Autowired
-    private PokemonService pokemonService;
+    private PokemonMasterService pokemonMasterService;
 
     @PostMapping
-    public ResponseEntity<PokemonDTO> search(@RequestBody PokemonDTO pokemonDTOReq) throws JsonProcessingException {
-        PokemonDTO pokemonDTORes = pokemonService.search(pokemonDTOReq);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(pokemonDTORes.getId()).toUri();
-        return ResponseEntity.created(uri).body(pokemonDTORes);
+    public ResponseEntity<PokemonMasterDTO> insert(@RequestBody PokemonMasterDTO request) throws JsonProcessingException {
+        PokemonMasterDTO response = pokemonMasterService.insert(request);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
 }

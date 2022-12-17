@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -19,7 +20,8 @@ public class PokemonService {
     @Autowired
     private PokemonRepository pokemonRepository;
 
-    public PokemonDTO insert(PokemonDTO pokemonDTO) throws JsonProcessingException {
+    @Transactional
+    public PokemonDTO search(PokemonDTO pokemonDTO) throws JsonProcessingException {
 
         if(pokemonRepository.existsByPokedexId(pokemonDTO.getPokedexId())){
             throw new RuntimeException("Este pokemon já se encontra na base de dados");
@@ -64,12 +66,13 @@ public class PokemonService {
         pokemon.setSpeed(specialSpeed.asInt());
         pokemon.setType(specialType.asText());
 
+        // O insert nesta tabela é realizado via relacionamento N:M com o mestre pokemon.
 
-        /*try{
-            pokemon = repository.save(entity);
-        }catch(RuntimeException e){
-            throw new RunTimeException(e.getMessage());
-        }*/
+//        try{
+//            pokemon = pokemonRepository.save(pokemon);
+//        }catch(RuntimeException e){
+//            throw new RuntimeException(e.getMessage());
+//        }
 
         return new PokemonDTO(pokemon);
     }

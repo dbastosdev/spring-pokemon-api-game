@@ -135,4 +135,21 @@ public class PokemonDTO {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "PokemonDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pokedexId=" + pokedexId +
+                ", img='" + img + '\'' +
+                ", hp=" + hp +
+                ", attack=" + attack +
+                ", defense=" + defense +
+                ", specialAttack=" + specialAttack +
+                ", specialDefense=" + specialDefense +
+                ", speed=" + speed +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
