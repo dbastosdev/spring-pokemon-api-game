@@ -34,8 +34,6 @@ public class PokemonService {
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(completURL, HttpMethod.GET, httpEntity, String.class);
 
-        System.out.println(completURL);
-
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
 
