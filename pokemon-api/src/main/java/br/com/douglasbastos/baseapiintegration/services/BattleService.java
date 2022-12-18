@@ -23,6 +23,12 @@ public class BattleService {
     @Autowired
     private BattleRepository battleRepository;
 
+    @Autowired
+    private PokemonService pokemonService;
+    @Autowired
+    private PokemonMasterService pokemonMasterService;
+
+
     @Transactional
     public List<BattleDTO> findAll() {
         List<Battle> listOfBattles = battleRepository.findAll();
@@ -32,11 +38,17 @@ public class BattleService {
 
     public BattleDTO insert(Long player1Id, Long player2Id, Long pokemonPlayer1Id, Long pokemonPlayer2Id) {
 
+        // Setup inicial da batalha
         Battle entity = new Battle();
-
-        // Iniciliza a batalha
         entity.setRoundCount(0);
         entity.setWinnerId(null);
+
+        // Busca dos jogadores e pokemons
+        PokemonMasterDTO player1 = pokemonMasterService.findById(player1Id);
+        PokemonMasterDTO player2 = pokemonMasterService.findById(player2Id);
+        PokemonDTO pokemonPlayer1 = pokemonService.findById(pokemonPlayer1Id);
+        PokemonDTO pokemonPlayer2 = pokemonService.findById(pokemonPlayer2Id);
+
 
 //        entity.setCreatedAt(LocalDateTime.now());
 //        entity.setUpdatedAt(entity.getCreatedAt());

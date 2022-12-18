@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -30,6 +31,13 @@ public class PokemonMasterService {
 
     @Autowired
     private PokemonService pokemonService;
+
+    @Transactional(readOnly = true)
+    public PokemonMasterDTO findById(Long id) {
+        Optional<PokemonMaster> obj = pokemonMasterRepository.findById(id);
+        PokemonMaster pokemonMaster = obj.orElse(null);
+        return new PokemonMasterDTO(pokemonMaster);
+    }
 
     @Transactional
     public PokemonMasterDTO insert(PokemonMasterDTO request) throws JsonProcessingException {

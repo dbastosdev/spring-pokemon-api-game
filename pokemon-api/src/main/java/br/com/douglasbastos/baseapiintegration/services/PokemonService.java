@@ -55,6 +55,13 @@ public class PokemonService {
         return listOfPokemons;
     }
 
+    @Transactional(readOnly = true)
+    public PokemonDTO findById(Long id) {
+        Optional<Pokemon> obj = pokemonRepository.findById(id);
+        Pokemon pokemon = obj.orElse(null);
+        return new PokemonDTO(pokemon);
+    }
+
 
     @Transactional
     public PokemonDTO search(PokemonDTO pokemonDTO) throws JsonProcessingException {
