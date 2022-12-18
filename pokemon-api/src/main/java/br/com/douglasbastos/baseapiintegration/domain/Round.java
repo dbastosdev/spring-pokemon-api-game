@@ -139,4 +139,22 @@ public class Round {
     public void setBattle(Battle battle) {
         this.battle = battle;
     }
+
+    @Override
+    public String toString() {
+        return "Round{" +
+                "id=" + id +
+                ", roundNumber=" + roundNumber +
+                ", playerAttacking='" + playerAttacking + '\'' +
+                ", playerAttackingPokemon='" + playerAttackingPokemon + '\'' +
+                ", diceResultAttack=" + diceResultAttack +
+                ", diceResultDamage=" + diceResultDamage +
+                ", playerDefending='" + playerDefending + '\'' +
+                ", playerDefendingPokemon='" + playerDefendingPokemon + '\'' +
+                ", diceResultDefense=" + diceResultDefense +
+                ", pokemonPlayer1Hp=" + pokemonPlayer1Hp +
+                ", pokemonPlayer2Hp=" + pokemonPlayer2Hp +
+                ", battle=" + battle +
+                '}';
+    }
 }

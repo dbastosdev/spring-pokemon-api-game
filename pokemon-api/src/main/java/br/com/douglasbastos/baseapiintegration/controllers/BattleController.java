@@ -26,4 +26,11 @@ public class BattleController {
         return ResponseEntity.ok().body(list);
     }
 
+    @PostMapping
+    public ResponseEntity<BattleDTO> insert(@RequestBody BattleDTO request) {
+        BattleDTO response = battleService.insert(request);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(request.getId()).toUri();
+        return ResponseEntity.created(uri).body(response);
+    }
+
 }
