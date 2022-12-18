@@ -1,12 +1,10 @@
 package br.com.douglasbastos.baseapiintegration.repositories;
 
+import br.com.douglasbastos.baseapiintegration.domain.Battle;
 import br.com.douglasbastos.baseapiintegration.domain.Pokemon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
-    boolean existsByPokedexId(Long id);
+public interface BattleRepository extends JpaRepository<Battle, Long> {
 }

@@ -24,6 +24,10 @@ public class PokemonMasterService {
 
     @Autowired
     private PokemonMasterRepository pokemonMasterRepository;
+
+    @Autowired
+    private PokemonRepository pokemonRepository;
+
     @Autowired
     private PokemonService pokemonService;
 
@@ -43,10 +47,11 @@ public class PokemonMasterService {
             // Insere o pokemon na base de dados de pokemons
             PokemonDTO pokemonDTO = new PokemonDTO();
             pokemonDTO.setName(p.getName());
-            pokemonDTO = pokemonService.search(pokemonDTO);
 
+            pokemonDTO = pokemonService.search(pokemonDTO);
             // Adiciona pokemon a lista de pokemons do mestre pokemon
             pokemonMaster.getPokemons().add(new Pokemon(pokemonDTO));
+
         }
 
         try{

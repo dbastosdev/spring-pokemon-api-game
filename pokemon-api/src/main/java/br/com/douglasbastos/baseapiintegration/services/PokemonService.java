@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PokemonService {
@@ -55,7 +56,7 @@ public class PokemonService {
     }
 
 
-        @Transactional
+    @Transactional
     public PokemonDTO search(PokemonDTO pokemonDTO) throws JsonProcessingException {
 
         if(pokemonRepository.existsByPokedexId(pokemonDTO.getPokedexId())){
@@ -111,6 +112,5 @@ public class PokemonService {
 
         return new PokemonDTO(pokemon);
     }
-
 
 }
