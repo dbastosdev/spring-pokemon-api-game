@@ -30,5 +30,40 @@ public class BattleService {
         return response;
     }
 
+    public BattleDTO insert(Long player1Id, Long player2Id, Long pokemonPlayer1Id, Long pokemonPlayer2Id) {
+
+        Battle entity = new Battle();
+
+        // Iniciliza a batalha
+        entity.setRoundCount(0);
+        entity.setWinnerId(null);
+
+//        entity.setCreatedAt(LocalDateTime.now());
+//        entity.setUpdatedAt(entity.getCreatedAt());
+//        entity.setName(customerReq.getName());
+//        entity.setLogin(customerReq.getLogin());
+//        entity.setPassword(customerReq.getPassword());
+//        entity.setCpf(customerReq.getCpf());
+//        entity = repository.save(entity);
+//
+//        if(customerReq.getZipcode() != null && customerReq.getNumber() != null){
+//
+//            AddressReq addressReq = new AddressReq();
+//
+//            addressReq.setZipcode(customerReq.getZipcode());
+//            addressReq.setNumber(customerReq.getNumber());
+//            addressReq.setCustomerForAddress(entity);
+//
+//            AddressRes addressRes = addressService.insert(addressReq);
+//
+//            entity.setAddress(new Address(addressRes));
+//        }
+//
+//
+//
+        return new BattleDTO(entity);
+
+    }
+
 
 }
