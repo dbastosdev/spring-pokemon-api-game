@@ -117,5 +117,19 @@ public class BattleService {
         }
     }
 
+    private Integer d100Roll(){
+        return 0;
+    }
+
+    private Integer d10Roll(){
+        return 0;
+    }
+
+    private Integer twoD10Roll(){
+        return 0;
+    }
+
+
+
 
 }
