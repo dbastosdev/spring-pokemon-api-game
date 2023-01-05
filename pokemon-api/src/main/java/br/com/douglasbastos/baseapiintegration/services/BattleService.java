@@ -71,6 +71,7 @@ public class BattleService {
             Round round = new Round();
             round.setBattle(battle);
             round.setRoundNumber(incrementRound);
+            incrementRound++;
 
             // troca atacante e defensor e realiza a batalha
             changeInitiative(round, initiativeControl, player1, player2, pokemonPlayer1, pokemonPlayer2);
@@ -83,8 +84,6 @@ public class BattleService {
 
             // Salva resultado do round
 
-            incrementRound++;
-            round.setRoundNumber(incrementRound);
 
             // DiceRoll test
             //d100Roll();
