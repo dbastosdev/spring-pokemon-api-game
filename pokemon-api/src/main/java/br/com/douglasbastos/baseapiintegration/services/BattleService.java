@@ -130,8 +130,9 @@ public class BattleService {
             } else{
                 hpDefense = defending.getHp();
                 hpAtack = attacking.getHp();
-
-                round.setPokemonPlayer2Hp(hpDefense);
+                Integer damageModified = Math.toIntExact(Math.round(round.getDiceResultDamage() * 0.5));
+                hpDefense = Math.toIntExact(hpDefense - damageModified);
+                round.setDiceResultDamage(damageModified);
                 round.setPokemonPlayer1Hp(hpAtack);
             }
         } else{
@@ -147,7 +148,7 @@ public class BattleService {
         return round;
     }
 
-    private Round battleTurn2(PokemonDTO defending , PokemonDTO attacking, Round round){
+    private Round battleTurn2(PokemonDTO attacking  , PokemonDTO defending, Round round){
         Integer hpDefense = 0;
         Integer hpAtack = 0;
 
@@ -160,17 +161,19 @@ public class BattleService {
 
             if(round.getDiceResultDefense() < defending.getDefense()){
                 hpDefense = defending.getHp();
-                hpDefense -= (round.getDiceResultDamage() - d10Roll());
+                Integer damageModified = Math.toIntExact(Math.round(round.getDiceResultDamage() * 0.5));
+                hpDefense = Math.toIntExact(hpDefense - damageModified);
+                round.setDiceResultDamage(damageModified);
                 hpAtack = attacking.getHp();
 
-                round.setPokemonPlayer2Hp(hpDefense);
-                round.setPokemonPlayer1Hp(hpAtack);
+                round.setPokemonPlayer1Hp(hpDefense);
+                round.setPokemonPlayer2Hp(hpAtack);
             } else{
                 hpDefense = defending.getHp();
                 hpAtack = attacking.getHp();
 
-                round.setPokemonPlayer2Hp(hpDefense);
-                round.setPokemonPlayer1Hp(hpAtack);
+                round.setPokemonPlayer1Hp(hpDefense - round.getDiceResultDamage());
+                round.setPokemonPlayer2Hp(hpAtack);
             }
         } else{
             round.setDiceResultDamage(0);
@@ -179,8 +182,8 @@ public class BattleService {
             hpDefense = defending.getHp();
             hpAtack = attacking.getHp();
 
-            round.setPokemonPlayer2Hp(hpDefense);
-            round.setPokemonPlayer1Hp(hpAtack);
+            round.setPokemonPlayer1Hp(hpDefense);
+            round.setPokemonPlayer2Hp(hpAtack);
         }
 
         return round;
@@ -195,14 +198,14 @@ public class BattleService {
             round.setPlayerAttackingPokemon(pokemonPlayer1.getName());
             round.setPlayerDefending(player2.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer2.getName());
-            // Realiza batalha - ataque / defesa / round / iniciativa
+            // Realiza batalha - ataque / defesa / round
             round = battleTurn1(pokemonPlayer1, pokemonPlayer2, round);
         } else {
             round.setPlayerAttacking(player2.getName());
             round.setPlayerAttackingPokemon(pokemonPlayer2.getName());
             round.setPlayerDefending(player1.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer1.getName());
-            // Realiza batalha
+            // Realiza batalha - ataque / defesa / round
             round = battleTurn2(pokemonPlayer2, pokemonPlayer1, round);
         }
 
