@@ -111,18 +111,18 @@ public class BattleService {
         Integer hpDefense = 0;
         Integer hpAtack = 0;
 
-        //round.setDiceResultAttack(d100Roll());
-        round.setDiceResultAttack(1);
+        round.setDiceResultAttack(d100Roll());
 
         if(round.getDiceResultAttack() < attacking.getAttack()){
 
             round.setDiceResultDamage(d10Roll());
-            //round.setDiceResultDefense(d100Roll());
-            round.setDiceResultDefense(1);
+            round.setDiceResultDefense(d100Roll());
 
             if(round.getDiceResultDefense() < defending.getDefense()){
                 hpDefense = defending.getHp();
-                hpDefense = hpDefense - round.getDiceResultDamage();
+                Integer damageModified = Math.toIntExact(Math.round(round.getDiceResultDamage() * 0.5));
+                hpDefense = Math.toIntExact(hpDefense - damageModified);
+                round.setDiceResultDamage(damageModified);
                 hpAtack = attacking.getHp();
 
                 round.setPokemonPlayer2Hp(hpDefense);
@@ -130,9 +130,8 @@ public class BattleService {
             } else{
                 hpDefense = defending.getHp();
                 hpAtack = attacking.getHp();
-                Integer damageModified = Math.toIntExact(Math.round(round.getDiceResultDamage() * 0.5));
-                hpDefense = Math.toIntExact(hpDefense - damageModified);
-                round.setDiceResultDamage(damageModified);
+
+                round.setPokemonPlayer2Hp(hpDefense - round.getDiceResultDamage());
                 round.setPokemonPlayer1Hp(hpAtack);
             }
         } else{
@@ -145,6 +144,7 @@ public class BattleService {
             round.setPokemonPlayer2Hp(hpDefense);
             round.setPokemonPlayer1Hp(hpAtack);
         }
+
         return round;
     }
 
@@ -223,16 +223,5 @@ public class BattleService {
         Integer d10RollValue = random.nextInt(10) + 1;
         return d10RollValue;
     }
-
-    private Integer twoD10Roll(){
-        Random random = new Random();
-        Integer diceOne = random.nextInt(10) + 1;
-        Integer diceTwo = random.nextInt(10) + 1;
-        Integer total = diceOne + diceTwo;
-        return total;
-    }
-
-
-
 
 }
