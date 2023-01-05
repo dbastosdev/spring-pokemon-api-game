@@ -62,7 +62,6 @@ public class BattleService {
 
         // Inicialização de variáveis acessórias
         Integer incrementRound = 0;
-        Integer lifeTest = 5;
         Integer initiativeControl = 0;
 
         // Loop de batalha - Enquanto os dois hp forem maior que zero. Quanto um se esgotar a batalha encerra.
@@ -75,19 +74,15 @@ public class BattleService {
 
             // troca atacante e defensor e realiza a batalha
             round = changeInitiative(round, initiativeControl, player1, player2, pokemonPlayer1, pokemonPlayer2);
-            // Realiza batalha
-            round = battleTurn(pokemonPlayer2, pokemonPlayer1, round, initiativeControl);
             initiativeControl++;
 
-            /*
-            Integer pokemonPlayer1Hp;
-            Integer pokemonPlayer2Hp;
-            */
+            // Atualiza dados do pokemon
+            pokemonPlayer1.setHp(round.getPokemonPlayer1Hp());
+            pokemonPlayer2.setHp(round.getPokemonPlayer2Hp());
+
 
             // TESTE DE ROUND
             System.out.println(round);
-            lifeTest--;
-            pokemonPlayer2.setHp(lifeTest);
 
             // Salva resultado do round
 
@@ -112,9 +107,49 @@ public class BattleService {
     // Salva resultados do turno
     // Troca iniciativa
     // Inicia o outro turno
-    private Round battleTurn(PokemonDTO attacking, PokemonDTO defending, Round round, Integer initiativeControl){
-        Integer hpAux = 0;
-        Integer control = initiativeControl % 2;
+    private Round battleTurn1(PokemonDTO attacking, PokemonDTO defending, Round round){
+        Integer hpDefense = 0;
+        Integer hpAtack = 0;
+
+        //round.setDiceResultAttack(d100Roll());
+        round.setDiceResultAttack(1);
+
+        if(round.getDiceResultAttack() < attacking.getAttack()){
+
+            round.setDiceResultDamage(d10Roll());
+            //round.setDiceResultDefense(d100Roll());
+            round.setDiceResultDefense(1);
+
+            if(round.getDiceResultDefense() < defending.getDefense()){
+                hpDefense = defending.getHp();
+                hpDefense = hpDefense - round.getDiceResultDamage();
+                hpAtack = attacking.getHp();
+
+                round.setPokemonPlayer2Hp(hpDefense);
+                round.setPokemonPlayer1Hp(hpAtack);
+            } else{
+                hpDefense = defending.getHp();
+                hpAtack = attacking.getHp();
+
+                round.setPokemonPlayer2Hp(hpDefense);
+                round.setPokemonPlayer1Hp(hpAtack);
+            }
+        } else{
+            round.setDiceResultDamage(0);
+            round.setDiceResultDefense(0);
+
+            hpDefense = defending.getHp();
+            hpAtack = attacking.getHp();
+
+            round.setPokemonPlayer2Hp(hpDefense);
+            round.setPokemonPlayer1Hp(hpAtack);
+        }
+        return round;
+    }
+
+    private Round battleTurn2(PokemonDTO defending , PokemonDTO attacking, Round round){
+        Integer hpDefense = 0;
+        Integer hpAtack = 0;
 
         round.setDiceResultAttack(d100Roll());
 
@@ -124,34 +159,28 @@ public class BattleService {
             round.setDiceResultDefense(d100Roll());
 
             if(round.getDiceResultDefense() < defending.getDefense()){
-                hpAux = defending.getHp();
-                hpAux -= (round.getDiceResultDamage() - d10Roll());
+                hpDefense = defending.getHp();
+                hpDefense -= (round.getDiceResultDamage() - d10Roll());
+                hpAtack = attacking.getHp();
 
-                if(control == 0){
-                    round.setPokemonPlayer2Hp(hpAux);
-                } else{
-                    round.setPokemonPlayer1Hp(hpAux);
-                }
+                round.setPokemonPlayer2Hp(hpDefense);
+                round.setPokemonPlayer1Hp(hpAtack);
             } else{
-                hpAux = defending.getHp();
-                if(control == 0){
-                    round.setPokemonPlayer2Hp(hpAux);
-                } else{
-                    round.setPokemonPlayer1Hp(hpAux);
-                }
+                hpDefense = defending.getHp();
+                hpAtack = attacking.getHp();
+
+                round.setPokemonPlayer2Hp(hpDefense);
+                round.setPokemonPlayer1Hp(hpAtack);
             }
         } else{
             round.setDiceResultDamage(0);
             round.setDiceResultDefense(0);
 
-            hpAux = defending.getHp();
-            hpAux -= (round.getDiceResultDamage() - d10Roll());
+            hpDefense = defending.getHp();
+            hpAtack = attacking.getHp();
 
-            if(control == 0){
-                round.setPokemonPlayer2Hp(hpAux);
-            } else{
-                round.setPokemonPlayer1Hp(hpAux);
-            }
+            round.setPokemonPlayer2Hp(hpDefense);
+            round.setPokemonPlayer1Hp(hpAtack);
         }
 
         return round;
@@ -166,11 +195,15 @@ public class BattleService {
             round.setPlayerAttackingPokemon(pokemonPlayer1.getName());
             round.setPlayerDefending(player2.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer2.getName());
+            // Realiza batalha - ataque / defesa / round / iniciativa
+            round = battleTurn1(pokemonPlayer1, pokemonPlayer2, round);
         } else {
             round.setPlayerAttacking(player2.getName());
             round.setPlayerAttackingPokemon(pokemonPlayer2.getName());
             round.setPlayerDefending(player1.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer1.getName());
+            // Realiza batalha
+            round = battleTurn2(pokemonPlayer2, pokemonPlayer1, round);
         }
 
         return round;
@@ -179,14 +212,12 @@ public class BattleService {
     private Integer d100Roll(){
         Random random = new Random();
         Integer d100RollValue = random.nextInt(100) + 1;
-        System.out.println("Rolagem d100: " + d100RollValue);
         return d100RollValue;
     }
 
     private Integer d10Roll(){
         Random random = new Random();
         Integer d10RollValue = random.nextInt(10) + 1;
-        System.out.println("Rolagem d10: " + d10RollValue);
         return d10RollValue;
     }
 
@@ -195,7 +226,6 @@ public class BattleService {
         Integer diceOne = random.nextInt(10) + 1;
         Integer diceTwo = random.nextInt(10) + 1;
         Integer total = diceOne + diceTwo;
-        System.out.println("Rolagem 2d10: " + total);
         return total;
     }
 
