@@ -59,13 +59,13 @@ public class BattleService {
 
 
         // Rounds
-        // Enquanto o hp é maior que zero, faz um novo round alternando o atacante
+        // Enquanto o hp for maior que zero, faz um novo round alternando o atacante e defensor
 
         Integer incrementRound = 0;
         //Integer lifeTest = 5;
         Integer initiativeControl = 0;
 
-        while(pokemonPlayer1.getHp() > 0 && pokemonPlayer2.getHp() > 0){
+        while(pokemonPlayer1.getHp() > 0 || pokemonPlayer2.getHp() > 0){
             // Primeiro round
             Round round = new Round();
             round.setBattle(battle);
