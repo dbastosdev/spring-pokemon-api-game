@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,12 +58,10 @@ public class BattleService {
         PokemonDTO pokemonPlayer1 = pokemonService.findById(battle.getPokemonPlayer1Id());
         PokemonDTO pokemonPlayer2 = pokemonService.findById(battle.getPokemonPlayer2Id());
 
-
-        // Rounds
         // Enquanto o hp for maior que zero, faz um novo round alternando o atacante e defensor
 
         Integer incrementRound = 0;
-        //Integer lifeTest = 5;
+//        Integer lifeTest = 5;
         Integer initiativeControl = 0;
 
         while(pokemonPlayer1.getHp() > 0 || pokemonPlayer2.getHp() > 0){
@@ -71,14 +70,14 @@ public class BattleService {
             round.setBattle(battle);
             round.setRoundNumber(incrementRound);
 
-            // Avalia a iniciativa
+            // troca atacante e defensor
             changeInitiative(round, initiativeControl, player1, player2, pokemonPlayer1, pokemonPlayer2);
             initiativeControl++;
 
             // TESTE DE ROUND
-            //System.out.println(round);
-            //lifeTest--;
-            //pokemonPlayer2.setHp(lifeTest);
+//            System.out.println(round);
+//            lifeTest--;
+//            pokemonPlayer2.setHp(lifeTest);
 
             // Faz a primeira batalha
                 // Atacante rola d100 de ataque que deve ser inferior ao valor do ataque do pokemon para ter sucesso
@@ -92,10 +91,15 @@ public class BattleService {
             incrementRound++;
             round.setRoundNumber(incrementRound);
 
+            // DiceRoll test
+            d100Roll();
+            d10Roll();
+            twoD10Roll();
+
+
         }
 
-        // Update battle
-
+        // Update battle: Inserindo os dados nos atributos restantes para retonar o resultado da batalha.
         return new BattleDTO(battle);
 
     }
@@ -118,15 +122,26 @@ public class BattleService {
     }
 
     private Integer d100Roll(){
-        return 0;
+        Random random = new Random();
+        Integer d100RollValue = random.nextInt(100) + 1;
+        System.out.println("Rolagem d100: " + d100RollValue);
+        return d100RollValue;
     }
 
     private Integer d10Roll(){
-        return 0;
+        Random random = new Random();
+        Integer d10RollValue = random.nextInt(10) + 1;
+        System.out.println("Rolagem d10: " + d10RollValue);
+        return d10RollValue;
     }
 
     private Integer twoD10Roll(){
-        return 0;
+        Random random = new Random();
+        Integer diceOne = random.nextInt(10) + 1;
+        Integer diceTwo = random.nextInt(10) + 1;
+        Integer total = diceOne + diceTwo;
+        System.out.println("Rolagem 2d10: " + total);
+        return total;
     }
 
 
