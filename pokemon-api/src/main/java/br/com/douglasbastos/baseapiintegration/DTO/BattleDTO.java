@@ -54,15 +54,6 @@ public class BattleDTO {
         this.roundCount = roundCount;
     }
 
-
-    public Long getWinner() {
-        return winnerId;
-    }
-
-    public void setWinner(Long winnerId) {
-        this.winnerId = winnerId;
-    }
-
     public Long getWinnerId() {
         return winnerId;
     }

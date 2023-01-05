@@ -3,6 +3,7 @@ package br.com.douglasbastos.baseapiintegration.services;
 import br.com.douglasbastos.baseapiintegration.DTO.BattleDTO;
 import br.com.douglasbastos.baseapiintegration.DTO.PokemonDTO;
 import br.com.douglasbastos.baseapiintegration.DTO.PokemonMasterDTO;
+import br.com.douglasbastos.baseapiintegration.DTO.RoundDTO;
 import br.com.douglasbastos.baseapiintegration.domain.Battle;
 import br.com.douglasbastos.baseapiintegration.domain.Round;
 import br.com.douglasbastos.baseapiintegration.repositories.BattleRepository;
@@ -66,6 +67,7 @@ public class BattleService {
 
         // Loop de batalha - Enquanto os dois hp forem maior que zero. Quanto um se esgotar a batalha encerra.
         while(pokemonPlayer1.getHp() > 0 && pokemonPlayer2.getHp() > 0){
+            battle.setRoundCount(incrementRound);
             // Abre o round
             Round round = new Round();
             round.setBattle(battle);
@@ -82,16 +84,20 @@ public class BattleService {
 
 
             // TESTE DE ROUND
-            System.out.println(round);
+            //System.out.println(round);
 
             // Salva resultado do round
+            roundService.insert(new RoundDTO(round));
 
-
-            // DiceRoll test
-            //d100Roll();
-            //d10Roll();
-            //twoD10Roll();
         }
+
+        // Apura vencedor da batalha
+        if(pokemonPlayer1.getHp() <= 0){
+            battle.setWinnerId(player2.getId());
+        } else {
+            battle.setWinnerId(player1.getId());
+        }
+
 
         // Update battle: Inserindo os dados nos atributos restantes para retonar o resultado da batalha.
         return new BattleDTO(battle);
@@ -144,6 +150,7 @@ public class BattleService {
             round.setPokemonPlayer2Hp(hpDefense);
             round.setPokemonPlayer1Hp(hpAtack);
         }
+
 
         return round;
     }
