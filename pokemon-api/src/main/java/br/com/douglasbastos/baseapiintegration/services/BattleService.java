@@ -60,47 +60,53 @@ public class BattleService {
 
         // Enquanto o hp for maior que zero, faz um novo round alternando o atacante e defensor
 
+        // Inicialização de variáveis acessórias
         Integer incrementRound = 0;
-//        Integer lifeTest = 5;
+        Integer lifeTest = 5;
         Integer initiativeControl = 0;
 
-        while(pokemonPlayer1.getHp() > 0 || pokemonPlayer2.getHp() > 0){
-            // Primeiro round
+        // Loop de batalha - Enquanto os dois hp forem maior que zero. Quanto um se esgotar a batalha encerra.
+        while(pokemonPlayer1.getHp() > 0 && pokemonPlayer2.getHp() > 0){
+            // Abre o round
             Round round = new Round();
             round.setBattle(battle);
             round.setRoundNumber(incrementRound);
 
-            // troca atacante e defensor
+            // troca atacante e defensor e realiza a batalha
             changeInitiative(round, initiativeControl, player1, player2, pokemonPlayer1, pokemonPlayer2);
             initiativeControl++;
 
             // TESTE DE ROUND
-//            System.out.println(round);
-//            lifeTest--;
-//            pokemonPlayer2.setHp(lifeTest);
+            System.out.println(round);
+            lifeTest--;
+            pokemonPlayer2.setHp(lifeTest);
 
-            // Faz a primeira batalha
-                // Atacante rola d100 de ataque que deve ser inferior ao valor do ataque do pokemon para ter sucesso
-                // Defensor rola d100 de defesa que deve ser inferior ao valor de defesa do pokemon para ter sucesso
-                // Se defender, hp do defensor -= d10 de dano - d10 de defesa
-                // Se não defender, hp do defensor -= d10 de dano
-                // Se a defesa for perfeita, d100 de defesa = 1, hp não modificado
-                // Troca iniciativa
-                // Inicia o outro turno
+            // Salva resultado do round
 
             incrementRound++;
             round.setRoundNumber(incrementRound);
 
             // DiceRoll test
-            d100Roll();
-            d10Roll();
-            twoD10Roll();
-
-
+            //d100Roll();
+            //d10Roll();
+            //twoD10Roll();
         }
 
         // Update battle: Inserindo os dados nos atributos restantes para retonar o resultado da batalha.
         return new BattleDTO(battle);
+
+    }
+
+    // Regra de batalha
+    // Atacante rola d100 de ataque que deve ser inferior ao valor do ataque do pokemon para ter sucesso
+    // Defensor rola d100 de defesa que deve ser inferior ao valor de defesa do pokemon para ter sucesso
+    // Se defender, hp do defensor -= d10 de dano - d10 de defesa
+    // Se não defender, hp do defensor -= d10 de dano
+    // Se a defesa for perfeita, d100 de defesa = 1, hp não modificado
+    // Salva resultados do turno
+    // Troca iniciativa
+    // Inicia o outro turno
+    private void battleTurn(PokemonDTO attacking, PokemonDTO defending){
 
     }
 
@@ -113,11 +119,15 @@ public class BattleService {
             round.setPlayerAttackingPokemon(pokemonPlayer1.getName());
             round.setPlayerDefending(player2.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer2.getName());
+            // Realiza batalha
+            battleTurn(pokemonPlayer1, pokemonPlayer2);
         } else {
             round.setPlayerAttacking(player2.getName());
             round.setPlayerAttackingPokemon(pokemonPlayer2.getName());
             round.setPlayerDefending(player1.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer1.getName());
+            // Realiza batalha
+            battleTurn(pokemonPlayer2, pokemonPlayer1);
         }
     }
 
