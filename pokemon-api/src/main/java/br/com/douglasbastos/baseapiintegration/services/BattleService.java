@@ -116,7 +116,7 @@ public class BattleService {
     // Salva resultados do turno
     // Troca iniciativa
     // Inicia o outro turno
-    private Round battleTurn1(PokemonDTO attacking, PokemonDTO defending, Round round){
+    private Round battleTurn(PokemonDTO attacking, PokemonDTO defending, Round round, Integer control){
         Integer hpDefense = 0;
         Integer hpAtack = 0;
 
@@ -134,67 +134,44 @@ public class BattleService {
                 round.setDiceResultDamage(damageModified);
                 hpAtack = attacking.getHp();
 
+                if(control == 1){
+                    round.setPokemonPlayer2Hp(hpDefense);
+                    round.setPokemonPlayer1Hp(hpAtack);
+                } else {
+                    round.setPokemonPlayer1Hp(hpDefense);
+                    round.setPokemonPlayer2Hp(hpAtack);
+                }
+
+            } else{
+                hpDefense = defending.getHp();
+                hpAtack = attacking.getHp();
+
+                if(control == 1){
+                    round.setPokemonPlayer2Hp(hpDefense - round.getDiceResultDamage());
+                    round.setPokemonPlayer1Hp(hpAtack);
+                } else {
+                    round.setPokemonPlayer1Hp(hpDefense - round.getDiceResultDamage());
+                    round.setPokemonPlayer2Hp(hpAtack);
+                }
+
+
+            }
+        } else{
+            round.setDiceResultDamage(0);
+            round.setDiceResultDefense(0);
+
+            hpDefense = defending.getHp();
+            hpAtack = attacking.getHp();
+
+            if(control == 1){
                 round.setPokemonPlayer2Hp(hpDefense);
                 round.setPokemonPlayer1Hp(hpAtack);
-            } else{
-                hpDefense = defending.getHp();
-                hpAtack = attacking.getHp();
-
-                round.setPokemonPlayer2Hp(hpDefense - round.getDiceResultDamage());
-                round.setPokemonPlayer1Hp(hpAtack);
-            }
-        } else{
-            round.setDiceResultDamage(0);
-            round.setDiceResultDefense(0);
-
-            hpDefense = defending.getHp();
-            hpAtack = attacking.getHp();
-
-            round.setPokemonPlayer2Hp(hpDefense);
-            round.setPokemonPlayer1Hp(hpAtack);
-        }
-
-
-        return round;
-    }
-
-    private Round battleTurn2(PokemonDTO attacking  , PokemonDTO defending, Round round){
-        Integer hpDefense = 0;
-        Integer hpAtack = 0;
-
-        round.setDiceResultAttack(d100Roll());
-
-        if(round.getDiceResultAttack() < attacking.getAttack()){
-
-            round.setDiceResultDamage(d10Roll());
-            round.setDiceResultDefense(d100Roll());
-
-            if(round.getDiceResultDefense() < defending.getDefense()){
-                hpDefense = defending.getHp();
-                Integer damageModified = Math.toIntExact(Math.round(round.getDiceResultDamage() * 0.5));
-                hpDefense = Math.toIntExact(hpDefense - damageModified);
-                round.setDiceResultDamage(damageModified);
-                hpAtack = attacking.getHp();
-
+            } else {
                 round.setPokemonPlayer1Hp(hpDefense);
                 round.setPokemonPlayer2Hp(hpAtack);
-            } else{
-                hpDefense = defending.getHp();
-                hpAtack = attacking.getHp();
-
-                round.setPokemonPlayer1Hp(hpDefense - round.getDiceResultDamage());
-                round.setPokemonPlayer2Hp(hpAtack);
             }
-        } else{
-            round.setDiceResultDamage(0);
-            round.setDiceResultDefense(0);
-
-            hpDefense = defending.getHp();
-            hpAtack = attacking.getHp();
-
-            round.setPokemonPlayer1Hp(hpDefense);
-            round.setPokemonPlayer2Hp(hpAtack);
         }
+
 
         return round;
     }
@@ -209,14 +186,14 @@ public class BattleService {
             round.setPlayerDefending(player2.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer2.getName());
             // Realiza batalha - ataque / defesa / round
-            round = battleTurn1(pokemonPlayer1, pokemonPlayer2, round);
+            round = battleTurn(pokemonPlayer1, pokemonPlayer2, round, 1);
         } else {
             round.setPlayerAttacking(player2.getName());
             round.setPlayerAttackingPokemon(pokemonPlayer2.getName());
             round.setPlayerDefending(player1.getName());
             round.setPlayerDefendingPokemon(pokemonPlayer1.getName());
             // Realiza batalha - ataque / defesa / round
-            round = battleTurn2(pokemonPlayer2, pokemonPlayer1, round);
+            round = battleTurn(pokemonPlayer2, pokemonPlayer1, round, 2);
         }
 
         return round;
