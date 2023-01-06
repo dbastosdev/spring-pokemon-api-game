@@ -1,3 +1,3 @@
 <h1 align="center">
-    Pokemon Battle
+    Simple Pokemon Battle Simulator
 </h1>
