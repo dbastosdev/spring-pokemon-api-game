@@ -1,5 +1,5 @@
 <h1 align="center">
-    Pokemon Battle API
+    Pokemon Battle API game
 </h1>
 
 <h4 align="center">
