@@ -98,7 +98,7 @@ public class BattleService {
             battle.setWinnerId(player1.getId());
         }
 
-
+        battleRepository.save(battle);
         // Update battle: Inserindo os dados nos atributos restantes para retonar o resultado da batalha.
         return new BattleDTO(battle);
 
