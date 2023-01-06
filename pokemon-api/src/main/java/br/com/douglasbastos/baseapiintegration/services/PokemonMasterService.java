@@ -9,12 +9,14 @@ import br.com.douglasbastos.baseapiintegration.repositories.PokemonRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -70,6 +72,20 @@ public class PokemonMasterService {
 
         return new PokemonMasterDTO(pokemonMaster);
     }
+
+    @Transactional
+    public void updatePoints(Long id){
+        try{
+            PokemonMaster entity = pokemonMasterRepository.getReferenceById(id);
+            Integer actualPoints = entity.getPoints();
+            Integer updatedPoints = actualPoints + 100; // 100 pontos por vitória
+            entity.setPoints(updatedPoints);
+            pokemonMasterRepository.save(entity);
+        } catch(EntityNotFoundException e){
+            throw new EntityNotFoundException("Não existe recurso com esse id para ser atualizado");
+        }
+    }
+
 
 
 }

@@ -5,6 +5,7 @@ import br.com.douglasbastos.baseapiintegration.DTO.PokemonDTO;
 import br.com.douglasbastos.baseapiintegration.DTO.PokemonMasterDTO;
 import br.com.douglasbastos.baseapiintegration.DTO.RoundDTO;
 import br.com.douglasbastos.baseapiintegration.domain.Battle;
+import br.com.douglasbastos.baseapiintegration.domain.PokemonMaster;
 import br.com.douglasbastos.baseapiintegration.domain.Round;
 import br.com.douglasbastos.baseapiintegration.repositories.BattleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,11 +95,13 @@ public class BattleService {
         // Apura vencedor da batalha
         if(pokemonPlayer1.getHp() <= 0){
             battle.setWinnerId(player2.getId());
+            pokemonMasterService.updatePoints(player2.getId());
         } else {
             battle.setWinnerId(player1.getId());
+            pokemonMasterService.updatePoints(player1.getId());
         }
 
-        battleRepository.save(battle);
+        battle = battleRepository.save(battle);
         // Update battle: Inserindo os dados nos atributos restantes para retonar o resultado da batalha.
         return new BattleDTO(battle);
 
