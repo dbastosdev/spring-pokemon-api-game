@@ -1,5 +1,6 @@
 package br.com.douglasbastos.baseapiintegration.DTO;
 
+import br.com.douglasbastos.baseapiintegration.domain.Battle;
 import br.com.douglasbastos.baseapiintegration.domain.Round;
 
 public class RoundDTO {
@@ -18,10 +19,12 @@ public class RoundDTO {
     private Integer pokemonPlayer1Hp;
     private Integer pokemonPlayer2Hp;
 
+    private Battle battle;
+
     public RoundDTO(){
     }
 
-    public RoundDTO(Long id, Integer roundNumber, String playerAttacking, String playerAttackingPokemon, Integer diceResultAttack, Integer diceResultDamage, String playerDefending, String playerDefendingPokemon, Integer diceResultDefense, Integer pokemonPlayer1Hp, Integer pokemonPlayer2Hp) {
+    public RoundDTO(Long id, Integer roundNumber, String playerAttacking, String playerAttackingPokemon, Integer diceResultAttack, Integer diceResultDamage, String playerDefending, String playerDefendingPokemon, Integer diceResultDefense, Integer pokemonPlayer1Hp, Integer pokemonPlayer2Hp, Battle battle) {
         this.id = id;
         this.roundNumber = roundNumber;
         this.playerAttacking = playerAttacking;
@@ -33,6 +36,7 @@ public class RoundDTO {
         this.diceResultDefense = diceResultDefense;
         this.pokemonPlayer1Hp = pokemonPlayer1Hp;
         this.pokemonPlayer2Hp = pokemonPlayer2Hp;
+        this.battle = battle;
     }
 
     public RoundDTO(Round round) {
@@ -47,6 +51,7 @@ public class RoundDTO {
         this.diceResultDefense = round.getDiceResultDefense();
         this.pokemonPlayer1Hp = round.getPokemonPlayer1Hp();
         this.pokemonPlayer2Hp = round.getPokemonPlayer2Hp();
+        this.battle = round.getBattle();
     }
 
     public Long getId() {
@@ -135,5 +140,13 @@ public class RoundDTO {
 
     public void setPokemonPlayer2Hp(Integer pokemonPlayer2Hp) {
         this.pokemonPlayer2Hp = pokemonPlayer2Hp;
+    }
+
+    public Battle getBattle() {
+        return battle;
+    }
+
+    public void setBattle(Battle battle) {
+        this.battle = battle;
     }
 }

@@ -41,7 +41,7 @@ public class RoundService {
             entity.setDiceResultDefense(request.getDiceResultDefense());
             entity.setPokemonPlayer1Hp(request.getPokemonPlayer1Hp());
             entity.setPokemonPlayer2Hp(request.getPokemonPlayer2Hp());
-            //entity.setBattle(request.get);
+            entity.setBattle(request.getBattle());
 
             entity = roundRepository.save(entity);
 
