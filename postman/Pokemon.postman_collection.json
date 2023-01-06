@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "74db3da8-e2e4-4551-89d3-fb9e6002def4",
+		"name": "Pokemon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pokemon",
+			"item": [
+				{
+					"name": "Find all pokemons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pokemon/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pokemon",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PokemonMaster",
+			"item": [
+				{
+					"name": "Insert new player 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Player1\",\n    \"pokemons\": [\n        {\n            \"name\": \"squirtle\"\n        },\n        {\n            \"name\": \"pidgey\"\n        },\n        {\n            \"name\": \"weedle\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pokemon-master",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pokemon-master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert new player 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Player2\",\n    \"pokemons\": [\n        {\n            \"name\": \"bulbasaur\"\n        },\n        {\n            \"name\": \"caterpie\"\n        },\n        {\n            \"name\": \"kakuna\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pokemon-master",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pokemon-master"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Battle",
+			"item": [
+				{
+					"name": "All battles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/battles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"battles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert a new battle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"player1Id\": 1,\n    \"player2Id\": 2,\n    \"pokemonPlayer1Id\": 2,\n    \"pokemonPlayer2Id\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/battles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"battles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rounds",
+			"item": [
+				{
+					"name": "All rounds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/rounds",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rounds"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
