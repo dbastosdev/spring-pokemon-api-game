@@ -58,7 +58,7 @@ Data format: (application/json)
 | `POST` | /battles | Pokemon Masters and Pokemons id | Battle result
 | `GET` | /rounds | null | List of rounds
 
-A postman collection can be tested - [here](https://github.com/dbastosdev/spring-pokemon-api/tree/main/postman). 
+[Postman Collection](https://github.com/dbastosdev/spring-pokemon-api/tree/main/postman). 
 ---
 
 Coded with ☕️ by dbastos.dev@gmail.com 
