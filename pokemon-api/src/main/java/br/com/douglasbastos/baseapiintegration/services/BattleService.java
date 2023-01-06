@@ -108,14 +108,6 @@ public class BattleService {
     }
 
     // Regra de batalha
-    // Atacante rola d100 de ataque que deve ser inferior ao valor do ataque do pokemon para ter sucesso
-    // Defensor rola d100 de defesa que deve ser inferior ao valor de defesa do pokemon para ter sucesso
-    // Se defender, hp do defensor -= d10 de dano - d10 de defesa
-    // Se não defender, hp do defensor -= d10 de dano
-    // Se a defesa for perfeita, d100 de defesa = 1, hp não modificado
-    // Salva resultados do turno
-    // Troca iniciativa
-    // Inicia o outro turno
     private Round battleTurn(PokemonDTO attacking, PokemonDTO defending, Round round, Integer control){
         Integer hpDefense = 0;
         Integer hpAtack = 0;
